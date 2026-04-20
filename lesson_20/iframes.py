@@ -1,6 +1,7 @@
 import time
 import pickle
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.ie.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
@@ -13,18 +14,33 @@ options = Options()
 service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
 user_1 = webdriver.Chrome(options=options)
+action = ActionChains(driver)
 
-FROM_NAME_LOCATOR = ("xpath", "//input[@id='RESULT_TextField-0']")
-COPE_TEXT_LOCATOR = ("xpath", "//button[text()='Copy Text']")
-IFRAME_LOCATOR = ("xpath", "//iframe")
+# FROM_NAME_LOCATOR = ("xpath", "//input[@id='RESULT_TextField-0']")
+# COPE_TEXT_LOCATOR = ("xpath", "//button[text()='Copy Text']")
+# IFRAME_LOCATOR = ("xpath", "//iframe")
+# HOVER_BUTTON_LOCATOR = ("xpath", "//button[@id='']")
 
-driver.get("https://demoqa.com/frames")
+driver.get("https://demoqa.com/menu")
 
-driver.switch_to.frame("frame1")
-driver.find_element("xpath", "//body").text
+MENU_ITEM_2_LOCATOR = ("xpath", "//a[text()='Main Item 2']")
+SUB_LIST_LOCATOR = ("xpath", "//a[text()='SUB SUB LIST >']")
 
-driver.switch_to.frame(0)
-driver.find_element("xpath", "//body").text
+menu_item_2 = driver.find_element(*MENU_ITEM_2_LOCATOR)
+sub_list_menu = driver.find_element(*SUB_LIST_LOCATOR)
+
+action.move_to_element(menu_item_2) \
+    .pause(2) \
+    .move_to_element(sub_list_menu) \
+    .perform()
+
+time.sleep(3)
+
+# driver.switch_to.frame("frame1")
+# driver.find_element("xpath", "//body").text
+
+# driver.switch_to.frame(0)
+# driver.find_element("xpath", "//body").text
 
 # iframe = driver.find_element(*IFRAME_LOCATOR)
 
