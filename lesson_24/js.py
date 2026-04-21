@@ -6,8 +6,15 @@ from selenium.webdriver.common.action_chains import ActionChains
 driver = webdriver.Chrome()
 action = ActionChains(driver)
 
-driver.get("")
+driver.get("https://seiyria.com/bootstrap-slider/")
+
+# driver.execute_script("alert('Hello)")
+
+
 
 EX_2_LOCATOR = ("xpath", "//h3[text()='Example 2: ']")
 EX_2 = driver.find_element(*EX_2_LOCATOR)
 
+action.scroll_to_element(EX_2).perform()
+
+time.sleep(5)
